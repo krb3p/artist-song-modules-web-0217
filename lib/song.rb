@@ -1,33 +1,27 @@
 require 'pry'
+require_relative './memorable_module.rb'
+require_relative './params_module.rb'
+require_relative './finder_module.rb'
 
 class Song
+
+  include Memorable::InstanceMethods
+  include Params::InstanceMethods
+  extend Memorable::ClassMethods
+  extend Finder::ClassMethods
+
   attr_accessor :name
   attr_reader :artist
 
   @@songs = []
 
   def initialize
-    @@songs << self
-  end
+    super
 
-  def self.find_by_name(name)
-    @@songs.detect{|a| a.name == name}
   end
 
   def artist=(artist)
-    @artist = artist
-  end
-
-  def self.reset_all
-    @@songs.clear
-  end
-
-  def to_param
-    name.downcase.gsub(' ', '-')
-  end
-
-  def self.count
-    self.all.count
+    @artist = artist unless @artist
   end
 
   def self.all
